@@ -1,32 +1,41 @@
-import React, {useEffect} from 'react'
-import axios from 'axios';
-import Layout from '../components/Layout';
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Layout from "./../components/Layout";
+import { Row } from "antd";
+import DoctorList from "../components/DoctorList";
 const Homepage = () => {
-
-  //login user data
+  const [doctors, setDoctors] = useState([]);
+  // login user data
   const getUserData = async () => {
     try {
-      // eslint-disable-next-line
-      const res = await axios.post('/api/v1/user/getUserData', {}, {
-        headers:{
-          Authorization : "Bearer " + localStorage.getItem('token'),
+      const res = await axios.get(
+        "/api/v1/user/getAllDoctors",
+
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         }
-      })
+      );
+      if (res.data.success) {
+        setDoctors(res.data.data);
+      }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    getUserData()
-  }, [])
-
+    getUserData();
+  }, []);
   return (
     <Layout>
-      <h1>Home Page</h1>
+      <h1 className="text-center">Home Page</h1>
+      <Row>
+        {doctors && doctors.map((doctor) => <DoctorList doctor={doctor} />)}
+      </Row>
     </Layout>
-  )
-}
+  );
+};
 
 export default Homepage;
