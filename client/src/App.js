@@ -12,6 +12,8 @@ import Users from "./pages/admin/Users";
 import Doctors from "./pages/admin/Doctors";
 import Profile from "./pages/doctor/Profile";
 import BookingPage from "./pages/BookingPage";
+import Appointments from "./pages/Appointments";
+import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -21,14 +23,6 @@ function App() {
           <Spinner />
         ) : (
           <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Homepage />
-                </ProtectedRoute>
-              }
-            />
             <Route
               path="/apply-doctor"
               element={
@@ -41,7 +35,7 @@ function App() {
               path="/admin/users"
               element={
                 <ProtectedRoute>
-                  <Users/>
+                  <Users />
                 </ProtectedRoute>
               }
             />
@@ -49,7 +43,7 @@ function App() {
               path="/admin/doctors"
               element={
                 <ProtectedRoute>
-                  <Doctors/>
+                  <Doctors />
                 </ProtectedRoute>
               }
             />
@@ -91,6 +85,30 @@ function App() {
                 <PublicRoute>
                   <Register />
                 </PublicRoute>
+              }
+            />
+            <Route
+              path="/appointments"
+              element={
+                <ProtectedRoute>
+                  <Appointments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/doctor-appointments"
+              element={
+                <ProtectedRoute>
+                  <DoctorAppointments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Homepage />
+                </ProtectedRoute>
               }
             />
           </Routes>

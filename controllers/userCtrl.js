@@ -209,7 +209,7 @@ const bookeAppointmnetController = async (req, res) => {
 // booking bookingAvailabilityController
 const bookingAvailabilityController = async (req, res) => {
   try {
-    const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
+    const date = moment(req.body.date, "DD-MM-YY").toISOString();
     const fromTime = moment(req.body.time, "HH:mm")
       .subtract(1, "hours")
       .toISOString();
@@ -225,7 +225,7 @@ const bookingAvailabilityController = async (req, res) => {
     });
     if (appointments.length > 0) {
       return res.status(200).send({
-        message: "Appointments not Available at this time",
+        message: "Appointments not Availibale at this time",
         success: true,
       });
     } else {
@@ -244,6 +244,26 @@ const bookingAvailabilityController = async (req, res) => {
   }
 };
 
+const userAppointmentsController = async (req, res) => {
+  try {
+    const appointments = await appointmentModel.find({
+      userId: req.body.userId,
+    });
+    res.status(200).send({
+      success: true,
+      message: "Users Appointments Fetch SUccessfully",
+      data: appointments,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error In User Appointments",
+    });
+  }
+};
+
 module.exports = {
   loginController,
   registerController,
@@ -254,4 +274,5 @@ module.exports = {
   getAllDocotrsController,
   bookeAppointmnetController,
   bookingAvailabilityController,
+  userAppointmentsController,
 };
